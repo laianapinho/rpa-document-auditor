@@ -1,0 +1,7 @@
+COMPROVANTE DE PAGAMENTO
+
+Nome: Bruno Souza
+CPF: 987.654.321-00
+Valor: R$ 180,00
+Data: 21/05/2026
+Status: Pendente

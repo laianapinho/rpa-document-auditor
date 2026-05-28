@@ -1,0 +1,10 @@
+botcity-framework-core
+botcity-framework-web
+botcity-maestro-sdk
+pytesseract
+pillow
+pymupdf
+opencv-python
+pandas
+openpyxl
+python-dotenv

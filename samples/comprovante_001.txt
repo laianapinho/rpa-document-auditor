@@ -1,0 +1,7 @@
+COMPROVANTE DE PAGAMENTO
+
+Nome: Ana Silva
+CPF: 123.456.789-00
+Valor: R$ 250,00
+Data: 20/05/2026
+Status: Pago
