@@ -3,6 +3,7 @@ from app.config import APP_NAME, INPUT_DIR, OUTPUT_DIR, LOG_DIR, EVIDENCE_DIR
 
 # Importa a função responsável por listar os documentos válidos da pasta de entrada.
 from app.file_service import listar_documentos_validos
+from app.ocr_service import extrair_texto_documento
 
 def main():
     # Exibe uma mensagem inicial no terminal.
@@ -27,12 +28,20 @@ def main():
     print("Estrutura inicial carregada com sucesso.")
 
     documentos_validos = listar_documentos_validos(INPUT_DIR)
+    #aplica a funcao e printa o texto do arquivo
+    for documento in documentos_validos:
+        print("-" * 60)
+        print(f"Documento: {documento.name}")
+        texto = extrair_texto_documento(documento)
+        print("Texto extraído:")
+        print(texto[:500])
+
 
     # Exibe a quantidade de documentos válidos encontrados.
-    print(f"Quantidade de documentos válidos: {len(documentos_validos)}")
+    #print(f"Quantidade de documentos válidos: {len(documentos_validos)}")
 
     # Exibe uma linha final.
-    print("=" * 60)
+    #print("=" * 60)
 
 
 # Garante que a função main será executada apenas quando este arquivo for rodado diretamente.
