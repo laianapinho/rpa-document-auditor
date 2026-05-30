@@ -1,6 +1,8 @@
 # Importa as configurações principais do projeto.
 from app.config import APP_NAME, INPUT_DIR, OUTPUT_DIR, LOG_DIR, EVIDENCE_DIR
 
+# Importa a função responsável por listar os documentos válidos da pasta de entrada.
+from app.file_service import listar_documentos_validos
 
 def main():
     # Exibe uma mensagem inicial no terminal.
@@ -23,6 +25,11 @@ def main():
 
     # Exibe uma mensagem de sucesso.
     print("Estrutura inicial carregada com sucesso.")
+
+    documentos_validos = listar_documentos_validos(INPUT_DIR)
+
+    # Exibe a quantidade de documentos válidos encontrados.
+    print(f"Quantidade de documentos válidos: {len(documentos_validos)}")
 
     # Exibe uma linha final.
     print("=" * 60)
