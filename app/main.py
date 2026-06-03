@@ -5,6 +5,7 @@ from app.config import APP_NAME, INPUT_DIR, OUTPUT_DIR, LOG_DIR, EVIDENCE_DIR
 from app.file_service import listar_documentos_validos
 from app.ocr_service import extrair_texto_documento
 from app.extractor_service import extrair_campos_documento
+from app.validator_service import validar_campos_documento
 
 def main():
     # Exibe uma mensagem inicial no terminal.
@@ -54,6 +55,12 @@ def main():
 
     # Imprime no terminal o dicionário com os campos extraídos do documento.
         print(campos)
+
+    #validacao dos campos do dicionario campos
+        verificacao = validar_campos_documento(campos)
+
+        print(verificacao["status"])
+        print(verificacao["pendencias"])
 
 
 # Garante que a função main será executada apenas quando este arquivo for rodado diretamente.
