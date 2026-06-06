@@ -6,6 +6,7 @@ from app.file_service import listar_documentos_validos
 from app.ocr_service import extrair_texto_documento
 from app.extractor_service import extrair_campos_documento
 from app.validator_service import validar_campos_documento
+from app.file_manager import mover_arquivos
 
 def main():
     # Exibe uma mensagem inicial no terminal.
@@ -61,6 +62,9 @@ def main():
 
         print(verificacao["status"])
         print(verificacao["pendencias"])
+
+        pasta_destino = mover_arquivos(documento, verificacao["status"])
+        print(f"{documento.name} movido para {pasta_destino}")
 
 
 # Garante que a função main será executada apenas quando este arquivo for rodado diretamente.
