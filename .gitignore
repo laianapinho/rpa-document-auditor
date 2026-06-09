@@ -220,3 +220,7 @@ __marimo__/
 anotacoes.txt
 
 input/Comprovante.pdf
+data/conforme
+data/pendente
+data/input
+reports/*.xlsx
