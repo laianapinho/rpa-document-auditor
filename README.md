@@ -1,234 +1,96 @@
-# RPA Document Auditor
+# RPA Document Auditor – Versão Final
 
-Projeto de automação RPA desenvolvido em Python para auditoria automática de documentos.
+## Descrição do Projeto
+O **RPA Document Auditor** é um sistema de automação para processar comprovantes de transações financeiras (PDFs e imagens), extrair campos importantes, validar dados obrigatórios, organizar arquivos por status e gerar relatórios consolidados em Excel.
 
-A proposta é simular um robô capaz de ler documentos, extrair informações importantes, validar campos obrigatórios, organizar arquivos por situação e gerar relatórios finais com evidências do processamento.
-
----
-
-## Objetivo do projeto
-
-O objetivo do **RPA Document Auditor** é criar uma automação que auxilie na auditoria documental, reduzindo tarefas manuais repetitivas e aumentando a rastreabilidade do processo.
-
-O projeto será desenvolvido de forma progressiva, por dias, simulando uma rotina real de construção de uma solução RPA.
+O projeto funciona totalmente localmente, sem dependência de plataformas externas como BotCity.
 
 ---
 
-## Funcionalidades planejadas
-
-- Leitura de documentos em uma pasta de entrada.
-- Identificação de arquivos válidos e inválidos.
-- Extração de texto de PDFs e imagens.
-- Uso de OCR para leitura de documentos digitalizados.
-- Extração de campos como nome, CPF, valor, data e status.
-- Validação automática dos dados extraídos.
-- Organização dos documentos em pastas de processados, pendentes e erros.
-- Geração de relatório em Excel.
-- Registro de logs da execução.
-- Salvamento de evidências.
-- Possível integração com BotCity para execução e orquestração do robô.
+## Funcionalidades Principais
+- Listar documentos válidos na pasta `data/input` (PDF, PNG, JPG, JPEG).
+- Extrair texto de PDFs (PyMuPDF) e imagens (OCR com Tesseract).
+- Extrair campos importantes: `valor`, `data`, `tipo`, `instituicao`, `nome`, `cpf_cnpj`.
+- Validar campos obrigatórios e gerar status (`Conforme` ou `Pendente`) e lista de pendências.
+- Mover arquivos automaticamente para pastas `data/conforme`, `data/pendente` ou `data/erro`.
+- Gerar relatório Excel consolidado (`reports/`) com timestamp.
+- Todo o processo é executado pelo script `main.py`.
 
 ---
 
-## Tecnologias utilizadas
+## Estrutura do Projeto
+```text
+RPA-Document-Auditor/
+├─ app/
+│  ├─ config.py
+│  ├─ file_service.py
+│  ├─ ocr_service.py
+│  ├─ extractor_service.py
+│  ├─ validator_service.py
+│  ├─ file_manager.py
+│  ├─ report_service.py
+├─ data/
+│  ├─ input/         # Comprovantes para processar
+│  ├─ conforme/      # Documentos sem pendências
+│  ├─ pendente/      # Documentos com pendências
+│  ├─ erro/          # Arquivos corrompidos ou não processáveis
+├─ reports/          # Relatórios Excel gerados
+├─ main.py           # Pipeline principal
+├─ README.md         # Este arquivo
+```
 
+---
+
+## Requisitos
 - Python 3.11
-- BotCity
-- Pytesseract
-- Pillow
-- PyMuPDF
-- OpenCV
-- Pandas
-- OpenPyXL
-- Python-dotenv
+- Bibliotecas:
+  - pandas
+  - pathlib
+  - datetime
+  - PyMuPDF
+  - pytesseract
+  - Pillow
+- Tesseract OCR instalado no sistema e caminho configurado no `ocr_service.py`.
 
 ---
 
-## Estrutura inicial do projeto
-
-```text
-rpa-document-auditor/
-│
-├── app/
-│   ├── main.py
-│   ├── config.py
-│   ├── logger_config.py
-│   ├── ocr_service.py
-│   ├── extractor_service.py
-│   ├── validator_service.py
-│   ├── file_service.py
-│   └── report_service.py
-│
-├── data/
-│   ├── input/
-│   ├── processed/
-│   ├── pending/
-│   └── error/
-│
-├── evidences/
-├── logs/
-├── output/
-├── samples/
-├── requirements.txt
-├── .env.example
-├── .gitignore
-└── README.md
-```
-
----
-
-## Como executar o projeto
-
-### 1. Clonar ou criar a pasta do projeto
-
-```bash
-mkdir rpa-document-auditor
-cd rpa-document-auditor
-```
-
----
-
-### 2. Criar o ambiente virtual com Python 3.11
-
-No Windows, use:
-
-```bash
-py -3.11 -m venv venv
-```
-
----
-
-### 3. Ativar o ambiente virtual
-
-No PowerShell:
-
-```bash
-venv\Scripts\activate
-```
-
----
-
-### 4. Conferir a versão do Python
-
-```bash
-python --version
-```
-
-O esperado é algo parecido com:
-
-```text
-Python 3.11.x
-```
-
----
-
-### 5. Instalar as dependências
-
-```bash
-pip install -r requirements.txt
-```
-
----
-
-### 6. Executar o projeto
+## Execução do Pipeline
+1. Coloque os comprovantes na pasta `data/input/`.
+2. Abra o terminal no diretório do projeto.
+3. Ative o ambiente virtual Python.
+4. Rode:
 
 ```bash
 python -m app.main
 ```
 
----
-
-## Dependências iniciais
-
-O arquivo `requirements.txt` deve conter:
-
-```txt
-botcity-framework-core
-botcity-framework-web
-botcity-maestro-sdk
-pytesseract
-pillow
-pymupdf
-opencv-python
-pandas
-openpyxl
-python-dotenv
-```
+5. O script irá:
+   - Processar cada arquivo.
+   - Extrair e validar campos.
+   - Mover arquivos para a pasta correta.
+   - Gerar relatório Excel em `reports/` com timestamp.
 
 ---
 
-## Variáveis de ambiente
+## Estrutura do Relatório
 
-O arquivo `.env.example` deve conter:
+O relatório Excel contém as colunas:
 
-```env
-APP_NAME=RPA Document Auditor
-INPUT_DIR=data/input
-PROCESSED_DIR=data/processed
-PENDING_DIR=data/pending
-ERROR_DIR=data/error
-OUTPUT_DIR=output
-LOG_DIR=logs
-EVIDENCE_DIR=evidences
-```
+- valor
+- data
+- tipo
+- instituicao
+- nome
+- cpf_cnpj
+- status
+- pendencias
 
----
-
-## Arquivos de exemplo
-
-No Dia 1, foram criados documentos fictícios em formato `.txt` dentro da pasta `samples/`.
-
-Esses arquivos simulam comprovantes de pagamento e serão usados posteriormente para testar a extração e validação dos dados.
-
-Exemplo de documento:
-
-```text
-COMPROVANTE DE PAGAMENTO
-
-Nome: Ana Silva
-CPF: 123.456.789-00
-Valor: R$ 250,00
-Data: 20/05/2026
-Status: Pago
-```
+Cada linha representa um documento processado.
 
 ---
 
-## Status do projeto
+## Observações
 
-Projeto iniciado.
-
-### Dia 1 concluído
-
-Atividades realizadas:
-
-- Criação da pasta principal do projeto.
-- Criação do ambiente virtual com Python 3.11.
-- Criação da estrutura inicial de diretórios.
-- Criação dos arquivos principais da aplicação.
-- Configuração inicial do `requirements.txt`.
-- Configuração inicial do `.gitignore`.
-- Configuração inicial do `.env.example`.
-- Criação do arquivo `config.py`.
-- Criação do arquivo `main.py`.
-- Criação de documentos fictícios para testes.
-- Primeiro teste de execução no terminal.
-
----
-
-## Próximos passos
-
-No Dia 2, será implementada a listagem dos documentos da pasta `data/input`.
-
-A partir do Dia 2, o desenvolvimento será feito em formato de mentoria prática:
-
-1. Primeiro será explicado o objetivo do dia.
-2. Depois será apresentada a lógica que precisa ser implementada.
-3. O código completo só será fornecido caso haja dificuldade ou erro na implementação.
-4. Ao final, haverá um mini desafio para treino.
-
----
-
-## Autor
-
-Projeto desenvolvido por Laiana como parte dos estudos em RPA, automação de processos e BotCity.
+- Qualquer arquivo que não seja PDF, PNG, JPG ou JPEG será ignorado.
+- Arquivos problemáticos ou vazios serão movidos para `data/erro/`.
+- Este projeto está pronto para rodar totalmente local, sem BotCity.
